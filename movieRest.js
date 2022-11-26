@@ -1,6 +1,9 @@
+//Restful service for movie recommendations app
+
 const express = require('express');
 const app = express();
 
+//security?
 var helmet = require('helmet');
 app.use(helmet({
     crossOriginResourcePolicy: false
@@ -15,6 +18,7 @@ app.use(express.urlencoded({
 const cors = require('cors');
 app.use(cors());
 
+//Database
 const sqlite = require('sqlite3');
 const db = new sqlite.Database('movielist.db');
 
@@ -22,6 +26,7 @@ app.listen(8080, () => {
     console.log('Rest service running.');
 });
 
+//connection test
 app.get('/ping', (req, res, next) => {
     return res.status(200).json({
         error: false,
@@ -29,6 +34,7 @@ app.get('/ping', (req, res, next) => {
     });
 });
 
+//Find all movies from db
 app.get('/movies', (req, res, next) => {
     const sql = 'SELECT id,title,watched,rating,review,img FROM movielist;'
 
@@ -38,6 +44,7 @@ app.get('/movies', (req, res, next) => {
     })
 });
 
+//Add one movie to db
 app.post('/movies', (req, res, next) => {
     let movie = req.body
     console.log(movie)
@@ -53,6 +60,7 @@ app.post('/movies', (req, res, next) => {
     })
 });
 
+//Delete one movie from db based on id
 app.post('/delete', (req, res, next) => {
     let body = req.body
     let id = body.id

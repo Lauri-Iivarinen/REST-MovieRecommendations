@@ -3,6 +3,8 @@ const db = new sqlite.Database('movielist.db')
 
 db.serialize( () => {
     
+    //CREATE DB AND ADD 2 MOVIES
+
     let sql = 'CREATE TABLE movielist(' +
         'id integer PRIMARY KEY not null' +
         ',title varchar(40)' +
@@ -24,7 +26,7 @@ db.serialize( () => {
         '238' +
         ',"The Godfather"' +
         ',"2022-11-26"' +
-        ',9' +
+        ',4' +
         ',"Banger of a movie"' +
         ',"3bhkrj58Vtu7enYsRolD1fZdja1.jpg"' +
         ');'
@@ -40,7 +42,7 @@ db.serialize( () => {
         '278' +
         ',"Shawshank Redemption"' +
         ',"2022-10-15"' +
-        ',8' +
+        ',5' +
         ',"q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg"' +
         ');'
 
