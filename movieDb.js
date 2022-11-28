@@ -12,6 +12,7 @@ db.serialize( () => {
         ',rating integer' +
         ',review text' + 
         ',img varchar(40)' +
+        ',genres varchar(40)' +
         ');'
     
     db.run(sql, (err) => {
@@ -22,13 +23,14 @@ db.serialize( () => {
     })
 
     //Add test data
-    sql = 'INSERT INTO movielist(id,title,watched,rating,review,img) VALUES(' +
+    sql = 'INSERT INTO movielist(id,title,watched,rating,review,img,genres) VALUES(' +
         '238' +
         ',"The Godfather"' +
         ',"2022-11-26"' +
         ',4' +
         ',"Banger of a movie"' +
         ',"3bhkrj58Vtu7enYsRolD1fZdja1.jpg"' +
+        ',"18,80"' +
         ');'
     
     db.run(sql, (err) => {
@@ -38,12 +40,14 @@ db.serialize( () => {
         console.log("Insert OK");
     })
 
-    sql = 'INSERT INTO movielist(id,title,watched,rating,img) VALUES(' +
+    sql = 'INSERT INTO movielist(id,title,watched,rating,review,img,genres) VALUES(' +
         '278' +
         ',"Shawshank Redemption"' +
         ',"2022-10-15"' +
         ',5' +
+        ',""' +
         ',"q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg"' +
+        ',"18,80"' +
         ');'
 
     db.run(sql, (err) => {

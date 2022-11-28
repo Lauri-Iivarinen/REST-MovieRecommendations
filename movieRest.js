@@ -36,7 +36,7 @@ app.get('/ping', (req, res, next) => {
 
 //Find all movies from db
 app.get('/movies', (req, res, next) => {
-    const sql = 'SELECT id,title,watched,rating,review,img FROM movielist;'
+    const sql = 'SELECT id,title,watched,rating,review,img,genres FROM movielist;'
 
     db.all(sql, (err, result) => {
         if (err) throw error
@@ -48,9 +48,9 @@ app.get('/movies', (req, res, next) => {
 app.post('/movies', (req, res, next) => {
     let movie = req.body
     console.log(movie)
-    const sql = 'INSERT INTO movielist (id, title, watched, rating, review, img) VALUES(?,?,?,?,?,?);'
+    const sql = 'INSERT INTO movielist (id, title, watched, rating, review, img, genres) VALUES(?,?,?,?,?,?,?);'
     
-    db.run(sql, [movie.id, movie.title, movie.watched, movie.rating, movie.review, movie.img], (error, result) => {
+    db.run(sql, [movie.id, movie.title, movie.watched, movie.rating, movie.review, movie.img, movie.genres], (error, result) => {
         
         if (error) throw error
 
@@ -72,5 +72,23 @@ app.post('/delete', (req, res, next) => {
         return res.status(200).json({
             count: 1
         })
+    })
+})
+
+app.get('/topthree', (req, res, next) => {
+    const sql = 'SELECT id FROM movielist ORDER BY rating DESC LIMIT 3;'
+
+    db.all(sql, (error, result) => {
+        if (error) throw error
+        return res.status(200).json(result);
+    })
+});
+
+app.get('/all-id', (req, res, next) => {
+    const sql = "SELECT id FROM movielist;"
+
+    db.all(sql, (error, result) => {
+        if (error) throw error
+        return res.status(200).json(result);
     })
 })
