@@ -1,8 +1,8 @@
 {
-  "name": "matkaback",
+  "name": "movielistrest",
   "version": "1.0.0",
   "description": "",
-  "main": "luoMatkat.js",
+  "main": "movieRest.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
