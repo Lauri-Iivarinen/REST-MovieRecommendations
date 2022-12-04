@@ -22,8 +22,9 @@ app.use(cors());
 const sqlite = require('sqlite3');
 const db = new sqlite.Database('movielist.db');
 
-app.listen(8080, () => {
-    console.log('Rest service running.');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`App is running on port ${ PORT }`);
 });
 
 //connection test
