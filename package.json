@@ -4,7 +4,11 @@
   "description": "",
   "main": "movieRest.js",
   "scripts": {
+    "start": "node movieRest.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "author": "",
   "license": "ISC",
