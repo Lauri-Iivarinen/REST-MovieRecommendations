@@ -22,7 +22,7 @@ app.use(cors());
 const sqlite = require('sqlite3');
 const db = new sqlite.Database('movielist.db');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`App is running on port ${ PORT }`);
 });
@@ -50,15 +50,30 @@ app.post('/movies', (req, res, next) => {
     let movie = req.body
     console.log(movie)
     const sql = 'INSERT INTO movielist (id, title, watched, rating, review, img, genres) VALUES(?,?,?,?,?,?,?);'
-    
-    db.run(sql, [movie.id, movie.title, movie.watched, movie.rating, movie.review, movie.img, movie.genres], (error, result) => {
-        
-        if (error) throw error
 
-        return res.status(200).json({
-            count: 1
+    const postMovie = () => {
+        db.run(sql, [movie.id, movie.title, movie.watched, movie.rating, movie.review, movie.img, movie.genres], (error, result) => {
+        
+            if (error) throw error
+    
+            return res.status(200).json({
+                count: 1
+            })
         })
+    }
+
+    //check for existing movie
+    db.all('SELECT count(id) as count FROM movielist WHERE id=?;', [movie.id], (error, result) => {
+        if (error) throw error
+        console.log(result)
+        if (result[0].count === 0) postMovie() //movie is saved if there are no results with same id
+        else {
+            return res.status(200).json({
+                count: 0
+            })
+        }
     })
+    
 });
 
 app.put('/movies', (req, res, next) => {
@@ -80,6 +95,7 @@ app.put('/movies', (req, res, next) => {
 app.post('/delete', (req, res, next) => {
     let body = req.body
     let id = body.id
+    console.log('deleting: ' + id)
     const sql = 'DELETE FROM movielist WHERE id=?'
 
     db.run(sql, [id],(error, result) => {
@@ -96,7 +112,10 @@ app.get('/topthree', (req, res, next) => {
 
     db.all(sql, (error, result) => {
         if (error) throw error
-        return res.status(200).json(result);
+        if (result.length > 0) {
+            return res.status(200).json(result);
+        }
+        return res.status(200).json([]);
     })
 });
 
@@ -105,6 +124,9 @@ app.get('/all-id', (req, res, next) => {
 
     db.all(sql, (error, result) => {
         if (error) throw error
-        return res.status(200).json(result);
+        if (result.length > 0) {
+            return res.status(200).json(result);
+        }
+        return res.status(200).json([]);
     })
 })
