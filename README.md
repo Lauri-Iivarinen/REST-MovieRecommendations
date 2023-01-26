@@ -1,3 +1,3 @@
 # RESTmovieRecommendations
 
-REST application for movieRecommendations React app
+REST application for reactMovieRecommendations repository
